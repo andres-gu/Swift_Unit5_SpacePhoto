@@ -22,21 +22,32 @@ class ViewController: UIViewController {
         
         fetchPhotoInfo { (photoInfo) in
             if let photoInfo = photoInfo {
-                DispatchQueue.main.async {
-                    self.title = photoInfo.title
-                    self.descriptionLabel.text = photoInfo.description
-                    if let copyright = photoInfo.copyright {
-                        self.copyrightLabel.text = "Copyright \(copyright)"
-                    } else {
-                        self.copyrightLabel.text = "v"
-                    }
-                }
+                updateUI(with: photoInfo)
             }
         }
         
-    
-     
-        
+        func updateUI(with photoInfo: PhotoInfo) {
+            print("photoInfo.url:: ", photoInfo.url)
+            guard let url = photoInfo.url.withHTTPS() else { return }
+            print(url)
+            
+            let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+                if let data = data, let image = UIImage(data: data) { DispatchQueue.main.async {
+                    self.title = photoInfo.title
+                    self.apodImageView.image = image
+                    self.descriptionLabel.text = photoInfo.description
+                    
+                    if let copyright = photoInfo.copyright {
+                        self.copyrightLabel.text = copyright
+                    } else {
+                        self.copyrightLabel.isHidden = true
+                    }
+                    
+                    }
+                }
+            })
+            task.resume()
+        }
         
     }
     
