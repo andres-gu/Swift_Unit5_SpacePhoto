@@ -22,17 +22,25 @@ class ViewController: UIViewController {
         
         fetchPhotoInfo { (photoInfo) in
             if let photoInfo = photoInfo {
-                self.title = photoInfo.title
-                self.descriptionLabel.text = photoInfo.description
-            }
-            if let copyright = photoInfo?.copyright {
-                self.copyrightLabel.text = "Copyright \(copyright)"
-            } else {
-                self.copyrightLabel.text = "v"
+                DispatchQueue.main.async {
+                    self.title = photoInfo.title
+                    self.descriptionLabel.text = photoInfo.description
+                    if let copyright = photoInfo.copyright {
+                        self.copyrightLabel.text = "Copyright \(copyright)"
+                    } else {
+                        self.copyrightLabel.text = "v"
+                    }
+                }
             }
         }
         
+    
+     
+        
+        
     }
+    
+    
     
     
     

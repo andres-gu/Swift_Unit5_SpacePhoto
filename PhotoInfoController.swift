@@ -16,7 +16,7 @@ func fetchPhotoInfo(completion: @escaping (PhotoInfo?) -> Void) {
     
     let query: [String: String] = [
         "api_key": "DEMO_KEY",
-        "date": "2018-01-29"
+        "date": "2018-01-30"
     ]
     
     let url = baseURL.withQueries(query)!
@@ -33,4 +33,3 @@ func fetchPhotoInfo(completion: @escaping (PhotoInfo?) -> Void) {
     }
     task.resume()
 }
-
